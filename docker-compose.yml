@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: asset_discovery_mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: P@sssw0rdM@t@6810
+      MYSQL_DATABASE: asset_discovery
+      MYSQL_USER: apk
+      MYSQL_PASSWORD: P@sssw0rdM@t@6810
+    ports:
+      - "3307:3306"
+    volumes:
+      - asset_discovery_mysql_data:/var/lib/mysql
+    networks:
+      - asset_discovery
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u${MYSQL_USER}", "-p${MYSQL_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+  
+  asset_discovery_backend:
+    image: asset_discovery_backend:0.0.1
+    container_name: asset_discovery_backend
+    build:
+      context: .
+      dockerfile: asset-discovery/build/Dockerfile
+    ports:
+      - "2030:2030"
+    volumes:
+      - /etc/siem/asset_discovery/config.yml:/etc/siem/asset_discovery/config.yml
+
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - asset_discovery
+
+volumes:
+  asset_discovery_mysql_data:
+
+networks:
+  asset_discovery:
+    driver: bridge

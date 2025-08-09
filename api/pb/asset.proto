@@ -1,0 +1,154 @@
+syntax = "proto3";
+
+option go_package = "gitlab.apk-group.net/siem/backend/asset-discovery/api/pb";
+
+import "scanner.proto";
+
+message Port {
+    string id = 1;
+    string asset_id = 2;
+    int32 port_number = 3;
+    string protocol = 4;
+    string state = 5;
+    string service_name = 6;
+    string service_version = 7;
+    string discovered_at = 8;
+    string description = 9;
+}
+
+message VMwareVM {
+    string vm_id = 1;
+    string asset_id = 2;
+    string vm_name = 3;
+    string hypervisor = 4;
+    int32 cpu_count = 5;
+    int32 memory_mb = 6;
+    int32 disk_size_gb = 7;
+    string power_state = 8;
+    string last_synced_at = 9;
+}
+
+message AssetIP {
+    string asset_id = 1;
+    string ip = 2;
+    string mac_address = 3;
+}
+
+message Asset {
+    string id = 1;
+    string name = 2;
+    string domain = 3;
+    string hostname = 4;
+    string os_name = 5;
+    string os_version = 6;
+    string type = 7;
+    string discovered_by = 8;
+    string description = 9;
+    string created_at = 10;
+    string updated_at = 11;
+    repeated Port ports = 12;
+    repeated VMwareVM vmware_vms = 13;
+    repeated AssetIP asset_ips = 14;
+    int32 risk = 15;
+    Scanner scanner = 16;
+    bool logging_completed = 17;
+    int32 asset_value = 18;
+}
+
+message GetAssetByIDRequest {
+    string id = 1;
+}
+
+message GetAssetResponse {
+    Asset asset = 1;
+}
+
+message SortField {
+    string field = 1;
+    string order = 2;
+}
+
+message Filter {
+    string name = 1;
+    string domain = 2;
+    string hostname = 3;
+    string os_name = 4;
+    string os_version = 5;
+    string type = 6;
+    string ip = 7;
+    string scanner_type = 8;
+    string network = 9;
+}
+
+message GetAssetsRequest {
+    int32 limit = 1;
+    int32 page = 2;
+    repeated SortField sort = 3;
+    Filter filter = 4;
+}
+
+message GetAssetsResponse {
+    repeated Asset contents = 1;
+    int32 count = 2;
+}
+
+message CreateAssetRequest {
+    string name = 1;
+    string domain = 2;
+    string hostname = 3;
+    string os_name = 4;
+    string os_version = 5;
+    string type = 6;
+    string description = 7;
+    int32 risk = 8;
+    repeated Port ports = 9;
+    repeated AssetIP asset_ips = 10;
+    bool logging_completed = 11;
+    int32 asset_value = 12;
+}
+
+message CreateAssetResponse {
+    string id = 1;
+}
+
+message UpdateAssetRequest {
+    string id = 1;
+    string name = 2;
+    string domain = 3;
+    string hostname = 4;
+    string os_name = 5;
+    string os_version = 6;
+    string type = 7;
+    string description = 8;
+    int32 risk = 9;
+    repeated Port ports = 10;
+    repeated AssetIP asset_ips = 11;
+    bool logging_completed = 12;
+    int32 asset_value = 13;
+}
+
+message UpdateAssetResponse {}
+
+message DeleteAssetRequest {
+    string id = 1;
+}
+
+message DeleteAssetResponse {
+    bool success = 1;
+}
+
+message DeleteAssetsRequest {
+    repeated string ids = 1;
+    Filter filter = 2;
+    bool exclude = 3;
+}
+
+message DeleteAssetsResponse {
+    bool success = 1;
+}
+
+message GetDistinctOSNamesRequest {}
+
+message GetDistinctOSNamesResponse {
+    repeated string os_names = 1;
+}

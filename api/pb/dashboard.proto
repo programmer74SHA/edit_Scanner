@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+option go_package = "gitlab.apk-group.net/siem/backend/asset-discovery/api/pb";
+
+message AssetStatusCount {
+    string source = 1;
+    int32 percent = 2;
+}
+
+message GetDashboardAssetCountRequest {}
+
+message GetDashboardAssetCountResponse {
+    repeated AssetStatusCount contents = 1;
+    int32 count = 2;
+}
+
+message ScannerTypeCount {
+    string source = 1;
+    int32 count = 2;
+}
+
+message GetDashboardAssetPerScannerRequest {}
+
+message GetDashboardAssetPerScannerResponse {
+    repeated ScannerTypeCount contents = 1;
+}
+
+message OSLoggingStats {
+    string source = 1;
+    int32 count = 2;
+    int32 total = 3;
+}
+
+message GetDashboardLoggingCompletedRequest {}
+
+message GetDashboardLoggingCompletedResponse {
+    repeated OSLoggingStats contents = 1;
+}
+
+message AssetSourceStats {
+    string source = 1;
+    int32 percent = 2;
+}
+
+message GetDashboardAssetsPerSourceRequest {}
+
+message GetDashboardAssetsPerSourceResponse {
+    repeated AssetSourceStats contents = 1;
+    int32 count = 2;
+}

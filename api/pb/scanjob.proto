@@ -1,0 +1,67 @@
+syntax = "proto3";
+
+option go_package = "gitlab.apk-group.net/siem/backend/asset-discovery/api/pb";
+
+import "asset.proto";
+
+message AssetScanJob {
+    Asset asset = 1;
+    string discovered_at = 2;
+}
+
+message ScanJob {
+    int64 id = 1;
+    string name = 2;
+    string status = 3;
+    string start_time = 4;
+    string end_time = 5;
+    int32 progress = 6;
+    int64 scanner_id = 7;
+    repeated AssetScanJob asset_scan_jobs = 8;
+    string scanner_type = 9;
+    string target = 10;
+    string ip = 11;
+    string ip_start = 12;
+    string ip_end = 13;
+}
+
+message ScanJobFilter {
+    string name = 1;
+    string type = 2;
+    string status = 3;
+    string start_time_from = 4;
+    string start_time_to = 5;
+}
+
+message GetJobsRequest {
+    int32 limit = 1;
+    int32 page = 2;
+    repeated SortField sort = 3;
+    ScanJobFilter filter = 4;
+}
+
+message GetJobsResponse {
+    repeated ScanJob contents = 1;
+    int32 count = 2;
+}
+
+message GetJobByIDRequest {
+    int64 id = 1;
+}
+
+message GetJobByIDResponse {
+    ScanJob job = 1;
+}
+
+message DiffJobsRequest {
+    repeated int64 ids = 1;
+    int32 limit = 2;
+    int32 page = 3;
+    string type = 4;
+    repeated SortField sort = 5;
+}
+
+message DiffJobsResponse {
+    repeated Asset contents = 1;
+    int32 count = 2;
+}

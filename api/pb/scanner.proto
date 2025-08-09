@@ -1,0 +1,259 @@
+syntax = "proto3";
+
+option go_package = "gitlab.apk-group.net/siem/backend/asset-discovery/api/pb";
+
+message Scanner {
+    string id = 1 [json_name = "id"];
+    string scan_type = 2 [json_name = "scan_type"];
+    string name = 3 [json_name = "name"];
+    bool status = 4 [json_name = "status"]; 
+    string created_at = 5 [json_name = "created_at"];
+    string updated_at = 6 [json_name = "updated_at"];
+    string user_id = 7 [json_name = "user_id"];
+    string deleted_at = 8 [json_name = "deleted_at"];
+    string type = 9 [json_name = "type"];
+    string target = 10 [json_name = "target"];
+    string ip = 11 [json_name = "ip"];
+    int64 subnet = 12 [json_name = "subnet"];
+    string start_ip = 13 [json_name = "start_ip"];
+    string end_ip = 14 [json_name = "end_ip"];
+    string port = 15 [json_name = "port"];
+    string username = 16 [json_name = "username"];
+    string password = 17 [json_name = "password"];
+    string api_key = 18 [json_name = "api_key"];
+    string domain = 19 [json_name = "domain"];
+    string authentication_type = 20 [json_name = "authentication_type"];
+    string protocol = 21 [json_name = "protocol"];
+    Schedule schedule = 22 [json_name = "schedule"];
+    string profile_id = 23 [json_name = "profile_id"];
+    NmapProfile nmap_profile = 24 [json_name = "nmap_profile"];
+    string custom_switches = 25 [json_name = "custom_switches"];
+    string ssh_key_path = 26 [json_name = "ssh_key_path"];
+}
+
+message ScannerFilter {
+    string name = 1 [json_name = "name"];
+    string type = 2 [json_name = "type"];
+    bool status = 3 [json_name = "status"];
+    bool has_status_filter = 4 [json_name = "has_status_filter"];
+}
+
+message NmapProfile {
+    int64 id = 1 [json_name = "id"];
+    string name = 2 [json_name = "name"];
+    string description = 3 [json_name = "description"];
+    repeated string arguments = 4 [json_name = "arguments"];
+    bool is_default = 5 [json_name = "is_default"];
+    bool is_system = 6 [json_name = "is_system"];
+    string created_by = 7 [json_name = "created_by"];
+    string created_at = 8 [json_name = "created_at"];
+    string updated_at = 9 [json_name = "updated_at"];
+}
+
+
+message Schedule {
+    string schedule_type = 1 [json_name = "schedule_type"];
+    int64 frequency_value = 2 [json_name = "frequency_value"];
+    string frequency_unit = 3 [json_name = "frequency_unit"];
+    string run_time = 4 [json_name = "run_time"];
+    int64 month = 5 [json_name = "month"];
+    int64 week = 6 [json_name = "week"];
+    int64 day = 7 [json_name = "day"];
+    int64 hour = 8 [json_name = "hour"];
+    int64 minute = 9 [json_name = "minute"];
+}
+
+message CreateScannerRequest {
+    string scan_type = 1 [json_name = "scan_type"];
+    string name = 2 [json_name = "name"];
+    string user_id = 3 [json_name = "user_id"];
+    string type = 4 [json_name = "type"];
+    string target = 5 [json_name = "target"];
+    string ip = 6 [json_name = "ip"];
+    int64 subnet = 7 [json_name = "subnet"];
+    string start_ip = 8 [json_name = "start_ip"];
+    string end_ip = 9 [json_name = "end_ip"];
+    string port = 10 [json_name = "port"];
+    string username = 11 [json_name = "username"];
+    string password = 12 [json_name = "password"];
+    string api_key = 13 [json_name = "api_key"];
+    string domain = 14 [json_name = "domain"];
+    string authentication_type = 15 [json_name = "authentication_type"];
+    string protocol = 16 [json_name = "protocol"];
+    bool status = 17 [json_name = "status"];
+    string created_at = 18 [json_name = "created_at"];
+    string updated_at = 19 [json_name = "updated_at"];
+    string deleted_at = 20 [json_name = "deleted_at"];
+    Schedule schedule = 21 [json_name = "schedule"];
+    string profile_id = 22 [json_name = "profile_id"];
+    string custom_switches = 23 [json_name = "custom_switches"];
+    string ssh_key_path = 24 [json_name = "ssh_key_path"];
+}
+
+message CreateScannerResponse {
+    Scanner scanner = 1 [json_name = "scanner"];
+    bool success = 2 [json_name = "success"];
+    string error_message = 3 [json_name = "error_message"];
+    bool status = 4 [json_name = "status"];
+
+}
+
+message UpdateScannerRequest {
+    string id = 1 [json_name = "id"];
+    string scan_type = 2 [json_name = "scan_type"];
+    string name = 3 [json_name = "name"];
+    string user_id = 4 [json_name = "user_id"];
+    string type = 5 [json_name = "type"];
+    string target = 6 [json_name = "target"];
+    string ip = 7 [json_name = "ip"];
+    int64 subnet = 8 [json_name = "subnet"];
+    string start_ip = 9 [json_name = "start_ip"];
+    string end_ip = 10 [json_name = "end_ip"];
+    string port = 11 [json_name = "port"];
+    string username = 12 [json_name = "username"];
+    string password = 13 [json_name = "password"];
+    string api_key = 14 [json_name = "api_key"];
+    string domain = 15 [json_name = "domain"];
+    string authentication_type = 16 [json_name = "authentication_type"];
+    string protocol = 17 [json_name = "protocol"];
+    bool status = 18 [json_name = "status"];
+    string schedule_type = 19 [json_name = "schedule_type"]; 
+    int64 frequency_value = 20 [json_name = "frequency_value"];
+    string frequency_unit = 21 [json_name = "frequency_unit"];
+    int64 month = 22 [json_name = "month"];
+    int64 week = 23 [json_name = "week"];
+    int64 day = 24 [json_name = "day"];
+    int64 hour = 25 [json_name = "hour"];
+    int64 minute = 26 [json_name = "minute"];
+    string created_at = 27 [json_name = "created_at"];
+    string updated_at = 28 [json_name = "updated_at"];
+    string deleted_at = 29 [json_name = "deleted_at"];
+    string run_time = 30 [json_name = "run_time"];
+    string profile_id = 31 [json_name = "profile_id"];
+    string custom_switches = 32 [json_name = "custom_switches"];
+    string ssh_key_path = 33 [json_name = "ssh_key_path"];
+}
+
+message GetNmapProfilesRequest {
+    // Empty for now, but can be extended with filters later
+}
+
+message GetNmapProfilesResponse {
+    repeated NmapProfile profiles = 1 [json_name = "profiles"];
+    bool success = 2 [json_name = "success"];
+    string error_message = 3 [json_name = "error_message"];
+}
+
+message GetNmapProfileRequest {
+    int64 id = 1 [json_name = "id"];
+}
+
+message GetNmapProfileResponse {
+    NmapProfile profile = 1 [json_name = "profile"];
+    bool success = 2 [json_name = "success"];
+    string error_message = 3 [json_name = "error_message"];
+}
+
+
+message UpdateScannerResponse {
+    Scanner scanner = 1 [json_name = "scanner"];
+    bool success = 2 [json_name = "success"];
+    string error_message = 3 [json_name = "error_message"];
+}
+
+message GetScannerRequest {
+    string id = 1 [json_name = "id"];
+}
+
+message GetScannerResponse {
+    Scanner scanner = 1 [json_name = "scanner"];
+    bool success = 2 [json_name = "success"];
+    string error_message = 3 [json_name = "error_message"];
+    bool status = 4 [json_name = "status"];
+
+}
+
+message DeleteScannerRequest {
+    string id = 1 [json_name = "id"];
+}
+
+message DeleteScannerResponse {
+    bool success = 1 [json_name = "success"];
+    string error_message = 2 [json_name = "error_message"];
+}
+
+message DeleteScannersRequest {
+    repeated string ids = 1 [json_name = "ids"];
+    ScannerFilter filter = 2 [json_name = "filter"];
+    bool exclude = 3 [json_name = "exclude"];
+}
+
+message DeleteScannersResponse {
+    bool success = 1 [json_name = "success"];
+    string error_message = 2 [json_name = "error_message"];
+    int32 deleted_count = 3 [json_name = "deleted_count"];
+}
+
+message ListScannersRequest {
+    string name = 1 [json_name = "name"];
+    string scan_type = 2 [json_name = "scan_type"];
+    bool status = 3 [json_name = "status"];
+    bool has_status_filter = 4;
+}
+
+message ListScannersResponse {
+    repeated Scanner scanners = 1 [json_name = "scanners"];
+    int32 total_count = 2 [json_name = "total_count"];
+    bool success = 3 [json_name = "success"];
+    string error_message = 4 [json_name = "error_message"];
+}
+
+message BatchUpdateScannersEnabledRequest {
+    repeated string ids = 1 [json_name = "ids"];
+    bool status = 2 [json_name = "status"];
+    ScannerFilter filter = 3;
+    bool exclude = 4;
+}
+
+message BatchUpdateScannersEnabledResponse {
+    bool success = 1 [json_name = "success"];
+    string error_message = 2 [json_name = "error_message"];
+    int32 updated_count = 3 [json_name = "updated_count"];
+}
+
+message CancelScanJobRequest {
+    string id = 1 [json_name = "id"];
+}
+
+message CancelScanJobResponse {
+    bool success = 1 [json_name = "success"];
+    string error_message = 2 [json_name = "error_message"];
+    int64 job_id = 3 [json_name = "job_id"];
+}
+
+// Messages for running a scan immediately
+message RunScanNowRequest {
+    string scanner_id = 1 [json_name = "scanner_id"]; 
+}
+
+message RunScanNowResponse {
+    bool success = 1 [json_name = "success"];
+    string error_message = 2 [json_name = "error_message"];
+    int64 job_id = 3 [json_name = "job_id"];
+}
+
+
+message UpdateScannerStatusRequest {
+    repeated string ids = 1 [json_name = "ids"];
+    bool status = 2 [json_name = "status"];
+    ScannerFilter filter = 3 [json_name = "filter"];
+    bool exclude = 4 [json_name = "exclude"];
+    bool update_all = 5 [json_name = "update_all"];
+}
+
+message UpdateScannerStatusResponse {
+    bool success = 1 [json_name = "success"];
+    string error_message = 2 [json_name = "error_message"];
+    int32 updated_count = 3 [json_name = "updated_count"];
+}
+

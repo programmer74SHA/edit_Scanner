@@ -1,0 +1,22 @@
+db:
+  host: "mysql"
+  port: 3306
+  username: "root"
+  password: "P@sssw0rdM@t@6810"
+  database: "asset_discovery"
+
+logger:
+  level: ""
+  output: ""
+  path: ""
+
+server:
+  httpPort: 2030
+  secret: "test"
+  sslEnabled: false
+  key: /etc/siem/certs/key.pem
+  cert: /etc/siem/certs/cert.pem
+  authExpMin: 10
+  authExpRefreshMin: 100
+  # rate_limit_max_attempt: 0
+  # ratelimit_time_period: 0

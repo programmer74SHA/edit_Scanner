@@ -1,0 +1,14 @@
+{
+  "db": {
+    "host": "localhost",
+    "port": 3306,
+    "username": "root",
+    "password": "password",
+    "database": "ass"
+  },
+  "server": {
+    "httpPort": 2030,
+    "key": "/data/develop/key.pem",
+    "cert": "/data/develop/cert.pem"
+  }
+}

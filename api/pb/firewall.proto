@@ -1,0 +1,229 @@
+syntax = "proto3";
+
+option go_package = "gitlab.apk-group.net/siem/backend/asset-discovery/api/pb";
+
+// SecondaryIP represents secondary IP addresses on interfaces
+message SecondaryIP {
+    int32 id = 1;
+    string ip = 2;
+    int32 cidr_prefix = 3;
+    repeated string allowaccess = 4;
+}
+
+// ZoneInterfaces represents interfaces assigned to zones
+message ZoneInterfaces {
+    repeated string interface_name = 1;
+    repeated string vlan_name = 2;
+}
+
+// FirewallAsset represents the main firewall asset
+message FirewallAsset {
+    string id = 1;
+    string vendor_code = 2;
+    string name = 3;
+    string domain = 4;
+    string hostname = 5;
+    string os_name = 6;
+    string os_version = 7;
+    string description = 8;
+    string asset_type = 9;
+    string discovered_by = 10;
+    int32 risk = 11;
+    bool logging_completed = 12;
+    double asset_value = 13;
+}
+
+// FirewallDetails represents specific firewall configuration details
+message FirewallDetails {
+    string id = 1;
+    string asset_id = 2;
+    string model = 3;
+    string firmware_version = 4;
+    string serial_number = 5;
+    bool is_ha_enabled = 6;
+    string ha_role = 7;
+    string management_ip = 8;
+    string site_name = 9;
+    string location = 10;
+    string status = 11;
+    string last_sync = 12;
+    string sync_status = 13;
+}
+
+// FirewallZone represents security zones in the firewall
+message FirewallZone {
+    string id = 1;
+    string zone_name = 2;
+    string zone_type = 3;
+    string vendor_zone_type = 4;
+    string description = 5;
+    string zone_mode = 6;
+    string intrazone_action = 7;
+    string zone_protection_profile = 8;
+    string log_setting = 9;
+    ZoneInterfaces interfaces = 10;
+}
+
+// FirewallInterface represents network interfaces
+message FirewallInterface {
+    string id = 1;
+    string interface_name = 2;
+    string interface_type = 3;
+    string virtual_router = 4;
+    string virtual_system = 5;
+    string description = 6;
+    string operational_status = 7;
+    string admin_status = 8;
+    string parent_interface_name = 9;
+    int32 vlan_id = 10;
+    string mac_address = 11;
+    string vendor_specific_config = 12;
+    repeated SecondaryIP secondary_ips = 13;
+    string primary_ip = 14;
+    int32 cidr_prefix = 15;
+}
+
+// FirewallVLAN represents VLANs configured on the firewall
+message FirewallVLAN {
+    string id = 1;
+    int32 vlan_number = 2;
+    string vlan_name = 3;
+    string description = 4;
+    bool is_native = 5;
+    string vendor_specific_config = 6;
+    repeated string interfaces = 7;
+}
+
+// FirewallPolicy represents firewall security policies
+message FirewallPolicy {
+    string id = 1;
+    string policy_name = 2;
+    int32 policy_id = 3;
+    repeated string src_addresses = 4;
+    repeated string dst_addresses = 5;
+    repeated string services = 6;
+    string action = 7;
+    string policy_type = 8;
+    string status = 9;
+    int32 rule_order = 10;
+    string vendor_specific_config = 11;
+    string schedule = 12;
+}
+
+// Firewall represents the complete firewall configuration
+message Firewall {
+    FirewallAsset asset = 1;
+    FirewallDetails details = 2;
+    repeated FirewallZone zones = 3;
+    repeated FirewallInterface interfaces = 4;
+    repeated FirewallVLAN vlans = 5;
+    repeated FirewallPolicy policies = 6;
+}
+
+// Request and Response messages
+message CreateFirewallRequest {
+    FirewallAsset asset = 1;
+    FirewallDetails details = 2;
+    repeated FirewallZone zones = 3;
+    repeated FirewallInterface interfaces = 4;
+    repeated FirewallVLAN vlans = 5;
+    repeated FirewallPolicy policies = 6;
+}
+
+message CreateFirewallResponse {
+    string id = 1;
+    bool success = 2;
+    string message = 3;
+}
+
+message GetFirewallByIDRequest {
+    string id = 1;
+}
+
+message GetFirewallByIDResponse {
+    bool success = 1;
+    string message = 2;
+    Firewall firewall = 3;
+}
+
+message UpdateFirewallRequest {
+    string id = 1;
+    FirewallAsset asset = 2;
+    FirewallDetails details = 3;
+    repeated FirewallZone zones = 4;
+    repeated FirewallInterface interfaces = 5;
+    repeated FirewallVLAN vlans = 6;
+    repeated FirewallPolicy policies = 7;
+}
+
+message UpdateFirewallResponse {
+    bool success = 1;
+    string message = 2;
+}
+
+message DeleteFirewallRequest {
+    string id = 1;
+}
+
+message DeleteFirewallResponse {
+    bool success = 1;
+    string message = 2;
+}
+
+message DeleteFirewallBatchRequest {
+    repeated string ids = 1;
+}
+
+message DeleteFirewallBatchResponse {
+    bool success = 1;
+    string message = 2;
+}
+
+message DeleteAllFirewallsRequest {
+}
+
+message DeleteAllFirewallsResponse {
+    bool success = 1;
+    string message = 2;
+}
+
+message FirewallListItemFlat {
+    // Asset fields
+    string asset_id = 1;
+    string vendor_code = 2;
+    string name = 3;
+    string domain = 4;
+    string hostname = 5;
+    string os_name = 6;
+    string os_version = 7;
+    string description = 8;
+    string asset_type = 9;
+    string discovered_by = 10;
+    int32 risk = 11;
+    bool logging_completed = 12;
+    double asset_value = 13;
+    
+    // Details fields
+    string details_id = 14;
+    string model = 15;
+    string firmware_version = 16;
+    string serial_number = 17;
+    bool is_ha_enabled = 18;
+    string ha_role = 19;
+    string management_ip = 20;
+    string site_name = 21;
+    string location = 22;
+    string status = 23;
+    string last_sync = 24;
+    string sync_status = 25;
+}
+
+message ListFirewallsRequest {
+    int32 limit = 1;
+    int32 page = 2;
+}
+
+message ListFirewallsResponse {
+    repeated FirewallListItemFlat contents = 1;
+    int32 count = 2;
+}
